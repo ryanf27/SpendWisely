@@ -1,22 +1,11 @@
 "use client";
 
 import React from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Paper,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
-import heroImg from "../../public/3d-hand-making-cashless-payment-from-smartphone.jpg";
+import { Box, Container, Typography, Grid, CardContent } from "@mui/material";
 import Image from "next/image";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const AboutUsSection = () => {
-  const theme = useTheme();
-  const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
   return (
     <Box
       sx={{
@@ -41,57 +30,115 @@ const AboutUsSection = () => {
               }}
             >
               <Image
-                src={heroImg}
+                src={"/img1.jpg"}
                 alt="About us Image"
-                style={{
-                  width: "100%",
-                  height: isXsScreen ? 300 : 450,
-                  objectFit: "contain",
-                }}
-                priority
+                width={680}
+                height={680}
               />
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography
-              variant="h3"
-              align="center"
-              gutterBottom
+              align="left"
               sx={{
-                fontWeight: "bold",
+                color: "#F0BF3C",
+                fontWeight: 700,
               }}
             >
-              About Us
+              GET TO KNOW US
             </Typography>
-            <Typography
-              variant="h6"
-              align="center"
-              paragraph
-              sx={{ color: "#333" }}
-            >
+            <Typography variant="h5" align="left" sx={{ color: "#444" }}>
               Discover our mission and values.
             </Typography>
-            <Paper
-              elevation={6}
+            <Box
               sx={{
-                p: 3,
                 mt: 3,
-                background: "rgba(255, 255, 255, 0.8)",
               }}
             >
               <Typography paragraph>
-                Our journey began with a simple idea: to make financial planning
-                accessible and understandable for everyone. With a team of
-                dedicated financial experts and technologists, we&apos;ve
-                created a platform that does just that.
+                At the heart of our company is a commitment to making financial
+                independence achievable for everyone. Our team blends expertise
+                in technology and finance to deliver powerful, user-friendly
+                solutions.
               </Typography>
               <Typography paragraph>
-                We believe in empowering individuals with the tools and
-                knowledge to make informed financial decisions. Our commitment
-                to security, privacy, and user-centric design is unwavering.
-                Join us on this journey to financial independence.
+                Transparency, security, and continuous innovation are the
+                cornerstones of our approach. Embrace the journey towards
+                smarter financial management with us.
               </Typography>
-            </Paper>
+            </Box>
+            <Box sx={{ mt: 6 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ color: "#4CAF50" }}
+                  >
+                    <CheckCircleIcon sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1">
+                      Unlimited Access
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ color: "#2196F3" }}
+                  >
+                    <CheckCircleIcon sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1">Proven Success</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ color: "#FFC107" }}
+                  >
+                    <CheckCircleIcon sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1">
+                      Simplified Solutions
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ color: "#673AB7" }}
+                  >
+                    <CheckCircleIcon sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1">
+                      Customized Advice
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ color: "#E91E63" }}
+                  >
+                    <CheckCircleIcon sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1">
+                      Real-Time Updates
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{ color: "#009688" }}
+                  >
+                    <CheckCircleIcon sx={{ mr: 1 }} />
+                    <Typography variant="subtitle1">Secure</Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
           </Grid>
         </Grid>
       </Container>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Container, Grid, Typography, Button } from "@mui/material";
-import heroImg from "../../public/3d-render-house-bills-payment-online-invoice.jpg";
 import Image from "next/image";
 
 const HeroSection = () => {
@@ -19,7 +18,7 @@ const HeroSection = () => {
       <Container maxWidth="lg">
         <Grid
           container
-          spacing={1}
+          spacing={8}
           alignItems="center"
           justifyContent="center"
           style={{ height: "100%" }}
@@ -79,12 +78,10 @@ const HeroSection = () => {
               }}
             >
               <Image
-                src={heroImg}
+                src={"/img2.jpg"}
                 alt="Hero Section Image"
-                layout="intrinsic"
-                width={900}
-                height={900}
-                objectFit="cover"
+                width={650}
+                height={650}
               />
             </Box>
           </Grid>

@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   Box,
@@ -6,8 +7,6 @@ import {
   Typography,
   Grid,
   Paper,
-  useTheme,
-  useMediaQuery,
   IconButton,
 } from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -65,9 +64,6 @@ const Feature: React.FC<FeatureProps> = ({ title, description, Icon }) => (
 );
 
 const ServiceSection = () => {
-  const theme = useTheme();
-  const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
   return (
     <>
       <Box

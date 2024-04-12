@@ -4,7 +4,6 @@ import React from "react";
 import {
   Box,
   Typography,
-  Paper,
   Avatar,
   useTheme,
   useMediaQuery,
@@ -12,6 +11,7 @@ import {
 } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { url } from "inspector";
 
 interface Testimonial {
   id: number;
@@ -28,7 +28,8 @@ const testimonials: Testimonial[] = [
     position: "CEO of Acme Inc.",
     testimonial:
       "Thanks to FINPLAN, our team has become more efficient than ever. The intuitive design and powerful features really made a difference in our workflow!",
-    image: "/static/images/avatar/1.jpg",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     id: 2,
@@ -36,7 +37,8 @@ const testimonials: Testimonial[] = [
     position: "CFO of Beta LLC",
     testimonial:
       "FINPLAN's insights have transformed our financial planning process. It's user-friendly and incredibly powerful.",
-    image: "/static/images/avatar/2.jpg",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 
