@@ -1,5 +1,5 @@
 {
-  "name": "spend-wisely",
+  "name": "finplan",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,6 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
-    "framer-motion": "^11.0.28",
     "mongoose": "^8.3.0",
     "next": "14.1.4",
     "react": "^18",
