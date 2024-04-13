@@ -6,27 +6,22 @@ import {
   Button,
   Typography,
   Box,
-  useTheme,
   IconButton,
   Link as MuiLink,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 
-interface RegisterForm {
-  username: string;
+interface LoginForm {
   email: string;
   password: string;
 }
 
-const Register: React.FC = () => {
-  const [formData, setFormData] = useState<RegisterForm>({
-    username: "",
+const Login: React.FC = () => {
+  const [formData, setFormData] = useState<LoginForm>({
     email: "",
     password: "",
   });
-
-  const theme = useTheme();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -38,7 +33,8 @@ const Register: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log("Submitting:", formData);
+    console.log("Logging in with:", formData);
+    // Implement your login logic here
   };
 
   return (
@@ -58,7 +54,6 @@ const Register: React.FC = () => {
         }}
       />
 
-      {/* Form Section */}
       <Box
         sx={{
           display: "flex",
@@ -83,21 +78,9 @@ const Register: React.FC = () => {
           <ArrowBackIcon />
         </IconButton>
         <Typography variant="h4" component="h1" sx={{ mb: 4, color: "black" }}>
-          Register
+          Login
         </Typography>
         <form onSubmit={handleSubmit} style={{ width: "100%" }} noValidate>
-          <TextField
-            fullWidth
-            margin="normal"
-            id="username"
-            name="username"
-            label="Username"
-            type="text"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            sx={{ input: { color: "black" }, label: { color: "black" } }}
-          />
           <TextField
             fullWidth
             margin="normal"
@@ -127,12 +110,12 @@ const Register: React.FC = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2, backgroundColor: "#F0C042" }}
           >
-            Register
+            Log In
           </Button>
           <Typography sx={{ mt: 2, color: "black" }}>
-            Already have an account?{" "}
-            <MuiLink href="/login" sx={{ color: "#F0C099" }}>
-              Sign in
+            Don&apos;t have an account?
+            <MuiLink href="/register" sx={{ color: "#F0C099" }}>
+              Sign up
             </MuiLink>
           </Typography>
         </form>
@@ -141,4 +124,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default Login;

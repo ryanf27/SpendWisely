@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import Link from "next/link";
 
 const pages = ["Services", "Resources", "Contact"];
 
@@ -170,12 +171,18 @@ const Navbar = () => {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {/* Auth Buttons */}
-            <Button sx={{ color: dynamicTextColor(), marginRight: "10px" }}>
+            <Button
+              component={Link}
+              sx={{ color: dynamicTextColor(), marginRight: "10px" }}
+              href="/login"
+            >
               Login
             </Button>
             <Button
+              component={Link}
               variant="contained"
               sx={{ marginRight: "20px", backgroundColor: "#F0C042" }}
+              href={"/register"}
             >
               Register
             </Button>
