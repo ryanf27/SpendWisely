@@ -1,45 +1,52 @@
 import { Schema, model, Types } from "mongoose";
 
 interface Transaction {
-  type: "Expense" | "Income";
+  userId: Types.ObjectId;
+  categoryId: Types.ObjectId;
   amount: number;
-  categoryID: Types.ObjectId;
+  type: "income" | "expense";
   date: Date;
-  description?: string;
-  userID: Types.ObjectId;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const transactionSchema = new Schema<Transaction>({
-  type: {
-    type: String,
-    enum: ["Expense", "Income"],
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
     required: true,
   },
   amount: {
     type: Number,
     required: true,
-    validate: {
-      validator: (value: number) => value > 0,
-      message: (props) =>
-        `${props.value} is not a valid amount. Transaction amount must be positive.`,
-    },
   },
-  categoryID: {
-    type: Schema.Types.ObjectId,
-    ref: "Category",
+  type: {
+    type: String,
+    enum: ["income", "expense"],
     required: true,
   },
   date: {
     type: Date,
-    default: Date.now,
+    required: true,
   },
   description: {
     type: String,
+    trim: true,
+    maxlength: 255,
   },
-  userID: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

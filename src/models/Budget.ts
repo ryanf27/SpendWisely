@@ -1,34 +1,44 @@
 import { Schema, model, Types } from "mongoose";
 
 interface Budget {
-  amount: number;
-  period: "Yearly" | "Monthly" | "Weekly" | "Daily";
-  categoryID: Types.ObjectId;
-  userID: Types.ObjectId;
+  userId: Types.ObjectId;
+  categoryId: Types.ObjectId;
+  limitAmount: number;
+  period: "monthly" | "yearly";
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const budgetSchema = new Schema<Budget>({
-  amount: {
-    type: Number,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true,
-    validate: {
-      validator: (value: number) => value > 0,
-      message: (props) =>
-        `${props.value} is not a valid amount. Budget amount must be positive.`,
-    },
   },
-  categoryID: {
+  categoryId: {
     type: Schema.Types.ObjectId,
     ref: "Category",
     required: true,
   },
-  userID: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+  limitAmount: {
+    type: Number,
     required: true,
+  },
+  period: {
+    type: String,
+    enum: ["monthly", "yearly"],
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
 const Budget = model<Budget>("Budget", budgetSchema);
 
-module.exports = Budget;
+export default Budget;

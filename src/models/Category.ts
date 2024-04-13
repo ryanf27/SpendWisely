@@ -1,18 +1,22 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 interface Category {
+  userId: Types.ObjectId;
   name: string;
-  type: "Expense" | "Income";
 }
 
 const categorySchema = new Schema<Category>({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   name: {
     type: String,
     required: true,
   },
-  type: { type: String, enum: ["Expense", "Income"], required: true },
 });
 
 const Category = model<Category>("Category", categorySchema);
 
-module.exports = Category;
+export default Category;
