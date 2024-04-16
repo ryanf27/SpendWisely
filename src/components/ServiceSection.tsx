@@ -65,7 +65,7 @@ const Feature: React.FC<FeatureProps> = ({ title, description, Icon }) => (
 
 const ServiceSection = () => {
   return (
-    <>
+    <div id="features">
       <Box
         sx={{
           bgcolor: "background.paper",
@@ -132,7 +132,7 @@ const ServiceSection = () => {
           </Grid>
         </Container>
       </Box>
-    </>
+    </div>
   );
 };
 

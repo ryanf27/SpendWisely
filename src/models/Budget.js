@@ -1,22 +1,13 @@
 import { Schema, model, Types } from "mongoose";
 
-interface Budget {
-  userId: Types.ObjectId;
-  categoryId: Types.ObjectId;
-  limitAmount: number;
-  period: "monthly" | "yearly";
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const budgetSchema = new Schema<Budget>({
+const budgetSchema = new Schema({
   userId: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: "User",
     required: true,
   },
   categoryId: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: "Category",
     required: true,
   },
@@ -39,6 +30,6 @@ const budgetSchema = new Schema<Budget>({
   },
 });
 
-const Budget = model<Budget>("Budget", budgetSchema);
+const Budget = model("Budget", budgetSchema);
 
 export default Budget;

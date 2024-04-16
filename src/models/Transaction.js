@@ -1,24 +1,13 @@
 import { Schema, model, Types } from "mongoose";
 
-interface Transaction {
-  userId: Types.ObjectId;
-  categoryId: Types.ObjectId;
-  amount: number;
-  type: "income" | "expense";
-  date: Date;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const transactionSchema = new Schema<Transaction>({
+const transactionSchema = new Schema({
   userId: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: "User",
     required: true,
   },
   categoryId: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: "Category",
     required: true,
   },
@@ -50,6 +39,6 @@ const transactionSchema = new Schema<Transaction>({
   },
 });
 
-const Transaction = model<Transaction>("Transaction", transactionSchema);
+const Transaction = model("Transaction", transactionSchema);
 
 export default Transaction;

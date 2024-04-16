@@ -17,11 +17,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import Link from "next/link";
 
-const pages = ["Services", "Resources", "Contact"];
+const pages = ["Features", "About Us", "Contact"];
+const pageslink = ["/#features", "/#about", "/#contact"]; // Assuming these are IDs on the homepage
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-
   const [navBackground, setNavBackground] = useState(false);
 
   const handleScroll = () => {
@@ -31,9 +31,7 @@ const Navbar = () => {
 
   useEffect(() => {
     document.addEventListener("scroll", handleScroll);
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
+    return () => document.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -43,8 +41,8 @@ const Navbar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-  const theme = useTheme();
 
+  const theme = useTheme();
   const dynamicTextColor = () => (navBackground ? "white" : "black");
 
   return (
@@ -57,7 +55,7 @@ const Navbar = () => {
           ? `linear-gradient(45deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.main})`
           : "transparent",
         transition: "background 0.3s",
-        boxShadow: navBackground ? "#eee" : "none",
+        boxShadow: navBackground ? 1 : "none",
       }}
     >
       <Container
@@ -84,25 +82,24 @@ const Navbar = () => {
                 color: dynamicTextColor(),
               }}
             />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: dynamicTextColor(),
-                textDecoration: "none",
-              }}
-            >
-              FINPLAN
-            </Typography>
+            <Link href="/" passHref>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: dynamicTextColor(),
+                  textDecoration: "none",
+                }}
+              >
+                FINPLAN
+              </Typography>
+            </Link>
           </Box>
-
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -117,75 +114,54 @@ const Navbar = () => {
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
-              {pages.map((page) => (
+              {pages.map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Link href={pageslink[index]} passHref>
+                    <Typography textAlign="center">{page}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: dynamicTextColor(),
-              textDecoration: "none",
-            }}
-          >
-            FINPLAN
-          </Typography>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: dynamicTextColor(), display: "block" }}
               >
-                {page}
+                <Link href={pageslink[index]} passHref>
+                  <Typography
+                    sx={{ textDecoration: "none", color: dynamicTextColor() }}
+                  >
+                    {page}
+                  </Typography>
+                </Link>
               </Button>
             ))}
           </Box>
-
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {/* Auth Buttons */}
-            <Button
-              component={Link}
-              sx={{ color: dynamicTextColor(), marginRight: "10px" }}
-              href="/login"
-            >
-              Login
-            </Button>
-            <Button
-              component={Link}
-              variant="contained"
-              sx={{ marginRight: "20px", backgroundColor: "#F0C042" }}
-              href={"/register"}
-            >
-              Register
-            </Button>
+            <Link href="/login" passHref>
+              <Button sx={{ color: dynamicTextColor(), marginRight: "10px" }}>
+                Login
+              </Button>
+            </Link>
+            <Link href="/register" passHref>
+              <Button
+                variant="contained"
+                sx={{ marginRight: "20px", backgroundColor: "#F0C042" }}
+              >
+                Register
+              </Button>
+            </Link>
           </Box>
         </Toolbar>
       </Container>
