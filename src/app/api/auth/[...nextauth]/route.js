@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
-import { connectToDB } from "@/utils/db";
+import connectToDB from "@/utils/db";
 
 export const authOptions = {
   providers: [
@@ -13,45 +13,42 @@ export const authOptions = {
     }),
     CredentialsProvider({
       name: "Credentials",
-
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "jsmith@email.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
-          const foundUser = await User.findOne({
-            username: credentials.username,
-          })
+          await connectToDB();
+
+          const foundUser = await User.findOne({ email: credentials.email })
             .lean()
             .exec();
 
           if (foundUser) {
-            console.log("User Exists");
-            const match = await bcrypt.compare(
+            console.log("User Exists", foundUser);
+            const match = await bcrypt.compareSync(
               credentials.password,
               foundUser.password
             );
 
             if (match) {
-              console.log("success login");
-
               return foundUser;
             }
           }
         } catch (error) {
-          console.log(error);
+          console.error("Error in authorize function:", error);
+          return null;
         }
+        console.log("Authorization failed");
         return null;
       },
     }),
   ],
-  callbacks: {
-    async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
-      return session;
-    },
-  },
 };
 
 const handler = NextAuth(authOptions);

@@ -6,12 +6,16 @@ import {
   Button,
   Typography,
   Box,
-  useTheme,
   IconButton,
   Link as MuiLink,
+  Divider,
+  Snackbar,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import GoogleIcon from "@mui/icons-material/Google";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface RegisterForm {
   username: string;
@@ -25,8 +29,10 @@ const Register: React.FC = () => {
     email: "",
     password: "",
   });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const theme = useTheme();
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -36,9 +42,25 @@ const Register: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Submitting:", formData);
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) throw new Error("Failed to register");
+      router.push("/login");
+    } catch (error) {
+      console.error("Registration Error:", error);
+      setErrorMessage("Registration failed. Please try again.");
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -52,21 +74,22 @@ const Register: React.FC = () => {
     >
       <Box
         sx={{
-          background: `url('https://images.unsplash.com/photo-1541140911322-98afe66ea6da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdoaXRlJTIwJTIwYmFja2dyb3VuZCUyMGZpbmFuY2lhbHxlbnwwfHwwfHx8MA%3D%3D')`,
+          background:
+            "url('https://images.unsplash.com/photo-1541140911322-98afe66ea6da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdoaXRlJTIwJTIwYmFja2dyb3VuZCUyMGZpbmFuY2lhbHxlbnwwfHwwfHx8MA%3D%3D')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />
-
-      {/* Form Section */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#fff",
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
           p: 3,
+          borderRadius: 2,
+          boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
         }}
       >
         <IconButton
@@ -82,9 +105,18 @@ const Register: React.FC = () => {
         >
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h4" component="h1" sx={{ mb: 4, color: "black" }}>
+        <Typography variant="h4" component="h1" sx={{ mb: 2, color: "black" }}>
           Register
         </Typography>
+        <Button
+          variant="outlined"
+          startIcon={<GoogleIcon />}
+          onClick={() => signIn("google")}
+          sx={{ width: "100%", borderColor: "#4285F4", color: "#4285F4" }}
+        >
+          Login with Google
+        </Button>
+        <Divider sx={{ width: "100%", my: 2, borderColor: "#ccc" }}>OR</Divider>
         <form onSubmit={handleSubmit} style={{ width: "100%" }} noValidate>
           <TextField
             fullWidth
@@ -125,17 +157,24 @@ const Register: React.FC = () => {
           <Button
             type="submit"
             variant="contained"
-            sx={{ mt: 3, mb: 2, backgroundColor: "#F0C042" }}
+            color="primary"
+            sx={{ mt: 3, mb: 2 }}
           >
             Register
           </Button>
           <Typography sx={{ mt: 2, color: "black" }}>
             Already have an account?{" "}
-            <MuiLink href="/login" sx={{ color: "#F0C099" }}>
+            <MuiLink href="/login" sx={{ color: "#4285F4" }}>
               Sign in
             </MuiLink>
           </Typography>
         </form>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message={errorMessage}
+        />
       </Box>
     </Container>
   );

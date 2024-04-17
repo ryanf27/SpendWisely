@@ -3,7 +3,7 @@ import connectToDB from "@/utils/db";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
-export async function registerUser(request) {
+export async function POST(request) {
   try {
     await connectToDB();
     const userData = await request.json();

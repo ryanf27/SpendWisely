@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { signIn, SignInResponse } from "next-auth/react";
 import {
   Container,
   TextField,
@@ -11,6 +12,7 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface LoginForm {
   email: string;
@@ -23,6 +25,8 @@ const Login: React.FC = () => {
     password: "",
   });
 
+  const router = useRouter();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -31,10 +35,21 @@ const Login: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    console.log("Logging in with:", formData);
-    // Implement your login logic here
+
+    const { email, password } = formData;
+    const result: SignInResponse | undefined = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    if (result?.ok) {
+      router.push("/");
+    } else {
+      console.error("Login failed:", result?.error);
+    }
   };
 
   return (

@@ -82,6 +82,7 @@ const HeroSection = () => {
                 alt="Hero Section Image"
                 width={650}
                 height={650}
+                priority
               />
             </Box>
           </Grid>
