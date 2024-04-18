@@ -114,7 +114,7 @@ const Register: React.FC = () => {
           onClick={() => signIn("google")}
           sx={{ width: "100%", borderColor: "#4285F4", color: "#4285F4" }}
         >
-          Login with Google
+          Google
         </Button>
         <Divider sx={{ width: "100%", my: 2, borderColor: "#ccc" }}>OR</Divider>
         <form onSubmit={handleSubmit} style={{ width: "100%" }} noValidate>
