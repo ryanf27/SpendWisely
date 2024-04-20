@@ -37,18 +37,30 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-
-    const { email, password } = formData;
-    const result: SignInResponse | undefined = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result?.ok) {
-      router.push("/");
-    } else {
-      console.error("Login failed:", result?.error);
+    try {
+      const { email, password } = formData;
+      const result: SignInResponse | undefined = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      console.log(result);
+      if (result?.ok) {
+        router.push("/dashboard");
+      } else {
+        if (result?.error === "CredentialsSignin") {
+          console.error("Invalid email or password. Please try again.");
+        } else if (result?.error?.startsWith("NextAuthError:")) {
+          console.error("An error occurred during login:", result.error);
+        } else {
+          console.error(
+            "An unknown error occurred during login:",
+            result?.error
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Unexpected error during login:", error);
     }
   };
 

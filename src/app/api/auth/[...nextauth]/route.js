@@ -22,33 +22,58 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        try {
-          await connectToDB();
+        await connectToDB();
 
-          const foundUser = await User.findOne({ email: credentials.email })
-            .lean()
-            .exec();
+        try {
+          const foundUser = await User.findOne({ email: credentials.email });
 
           if (foundUser) {
-            console.log("User Exists", foundUser);
-            const match = await bcrypt.compareSync(
+            const isPasswordCorrect = bcrypt.compareSync(
               credentials.password,
               foundUser.password
             );
-
-            if (match) {
+            if (isPasswordCorrect) {
               return foundUser;
             }
           }
+          console.log("Invalid credentials");
+          return null;
         } catch (error) {
           console.error("Error in authorize function:", error);
           return null;
         }
-        console.log("Authorization failed");
-        return null;
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider == "credentials") {
+        return true;
+      }
+      if (account?.provider == "google") {
+        await connectToDB();
+
+        try {
+          const existingUser = await User.find({ email: user.email });
+          if (!existingUser) {
+            const newUser = new User({
+              email: user.email,
+            });
+            await newUser.save();
+            return true;
+          }
+          return true;
+        } catch (error) {
+          console.log("Error Saving User:", error);
+          return false;
+        }
+      }
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
