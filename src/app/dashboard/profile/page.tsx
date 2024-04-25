@@ -27,6 +27,7 @@ const Profile: React.FC = () => {
     newPassword: "",
     confirmPassword: "",
   });
+
   const [editProfile, setEditProfile] = useState<ProfileData>();
 
   const [isLoading, setLoading] = useState(false);

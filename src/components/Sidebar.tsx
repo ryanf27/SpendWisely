@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   List,
@@ -15,6 +16,7 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 interface SidebarProps {}
 
@@ -27,17 +29,25 @@ const Sidebar: React.FC<SidebarProps> = () => {
     router.push(path);
   };
 
-  const handleSignOut = () => {
-    // Implement sign out logic here
-    console.log("Sign out logic goes here");
-
-    router.push("/login");
+  const handleSignOut = async () => {
+    try {
+      await signOut({ callbackUrl: "/login" });
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
     <Box sx={{ width: 250, height: "100vh", backgroundColor: "#f4f4f4" }}>
       <List disablePadding>
-        <ListItem onClick={() => handleNavigation("/")}>
+        <ListItem
+          onClick={() => handleNavigation("/")}
+          sx={{
+            backgroundColor:
+              activeItem === "/dashboard" ? "#e0e0e0" : "inherit",
+            "&:hover": { backgroundColor: "#e0e0e0", cursor: "pointer" },
+          }}
+        >
           <ListItemIcon>
             <HomeIcon color={activeItem === "/" ? "primary" : "inherit"} />
           </ListItemIcon>
@@ -49,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           sx={{
             backgroundColor:
               activeItem === "/dashboard" ? "#e0e0e0" : "inherit",
-            "&:hover": { backgroundColor: "#e0e0e0" },
+            "&:hover": { backgroundColor: "#e0e0e0", cursor: "pointer" },
           }}
         >
           <ListItemIcon>
@@ -65,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           sx={{
             backgroundColor:
               activeItem === "/dashboard/profile" ? "primary" : "inherit",
-            "&:hover": { backgroundColor: "#e0e0e0" },
+            "&:hover": { backgroundColor: "#e0e0e0", cursor: "pointer" },
           }}
         >
           <ListItemIcon>
@@ -83,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           sx={{
             backgroundColor:
               activeItem === "/dashboard/transaction" ? "primary" : "inherit",
-            "&:hover": { backgroundColor: "#e0e0e0" },
+            "&:hover": { backgroundColor: "#e0e0e0", cursor: "pointer" },
           }}
         >
           <ListItemIcon>
@@ -101,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           sx={{
             backgroundColor:
               activeItem === "/dashboard/transaction" ? "primary" : "inherit",
-            "&:hover": { backgroundColor: "#e0e0e0" },
+            "&:hover": { backgroundColor: "#e0e0e0", cursor: "pointer" },
           }}
         >
           <ListItemIcon>
@@ -112,8 +122,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <ListItemText primary="Budget" />
         </ListItem>
         <Divider />
-        <ListItem>
-          <ListItemIcon onClick={handleSignOut}>
+        <ListItem
+          onClick={handleSignOut}
+          sx={{
+            backgroundColor:
+              activeItem === "/dashboard/transaction" ? "primary" : "inherit",
+            "&:hover": { backgroundColor: "#e0e0e0", cursor: "pointer" },
+          }}
+        >
+          <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
           <ListItemText primary="Sign Out" />

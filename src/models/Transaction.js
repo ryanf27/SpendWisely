@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, models } from "mongoose";
 
 const transactionSchema = new Schema({
   userId: {
@@ -39,6 +39,7 @@ const transactionSchema = new Schema({
   },
 });
 
-const Transaction = model("Transaction", transactionSchema);
+const Transaction =
+  models?.Transaction || model("Transaction", transactionSchema);
 
 export default Transaction;

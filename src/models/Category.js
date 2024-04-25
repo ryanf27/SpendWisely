@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, models } from "mongoose";
 
 const categorySchema = new Schema({
   userId: {
@@ -12,6 +12,6 @@ const categorySchema = new Schema({
   },
 });
 
-const Category = model("Category", categorySchema);
+const Category = models.Category || model("Category", categorySchema);
 
 export default Category;

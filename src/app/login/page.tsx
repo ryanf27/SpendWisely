@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { signIn, SignInResponse } from "next-auth/react";
 import {
@@ -44,7 +45,7 @@ const Login: React.FC = () => {
         email,
         password,
       });
-      console.log(result);
+
       if (result?.ok) {
         router.push("/dashboard");
       } else {
