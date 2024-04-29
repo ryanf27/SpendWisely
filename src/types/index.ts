@@ -24,5 +24,6 @@ export interface TransactionFormProps {
 export interface TransactionsTableProps {
   transactions: Transaction[];
   categories: Category[];
+  setTransactions: (transactions: Transaction[]) => void;
   onEdit: (transaction: Transaction) => void;
 }

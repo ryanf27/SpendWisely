@@ -86,6 +86,7 @@ const TransactionPage: React.FC = () => {
         transactions={transactions}
         categories={categories}
         onEdit={handleOpenEditForm}
+        setTransactions={setTransactions}
       />
       <TransactionForm
         open={openForm}

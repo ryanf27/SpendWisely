@@ -18,6 +18,7 @@ import { TransactionsTableProps } from "@/types/index";
 export const TransactionsTable = ({
   transactions,
   categories,
+  setTransactions,
   onEdit,
 }: TransactionsTableProps) => {
   const categoryMap: Record<string, string> = categories.reduce(
@@ -48,6 +49,7 @@ export const TransactionsTable = ({
           alert("Transaction not found.");
         } else if (message === "Transaction deleted") {
           alert("Transaction deleted successfully.");
+          setTransactions(transactions.filter((t) => t._id !== transactionId));
         }
       } else {
         throw new Error("Deletion failed.");
