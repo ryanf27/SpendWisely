@@ -4,73 +4,52 @@ import React, { useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
 import { TransactionsTable } from "@/components/TransactionsTable";
 import { TransactionForm } from "@/components/TransactionForm";
-import { Transaction } from "@/types/index";
+import { Transaction, Category } from "@/types/index";
+import { loadTransactions, saveTransaction } from "@/app/utils/transactions";
 
 const TransactionPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [categories, setCategories] = useState<{ name: string; id: string }[]>(
-    []
-  );
+  const [categories, setCategories] = useState<Category[]>([]);
   const [openForm, setOpenForm] = useState(false);
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
 
   useEffect(() => {
-    const loadTransactionsAndCategories = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("/api/transaction");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const { transactions, userCategories } = await response.json();
+        const { transactions, userCategories } = await loadTransactions();
 
         setTransactions(transactions);
 
         setCategories(
-          userCategories.map((cat: any) => ({ name: cat.name, id: cat._id }))
+          userCategories.map((cat: any) => ({ name: cat.name, _id: cat._id }))
         );
       } catch (error) {
         console.error("Failed to load transactions and categories:", error);
       }
     };
 
-    loadTransactionsAndCategories();
+    fetchData();
   }, []);
 
   const handleCreateOrEditTransaction = async (transaction: Transaction) => {
-    const method = transaction._id ? "PUT" : "POST";
-    const url = transaction._id
-      ? `/api/transaction/${transaction._id}`
-      : "/api/transaction";
-
-    const response = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(transaction),
-    });
-
-    if (!response.ok) {
-      console.error("Error in response", response.statusText);
-      return;
-    }
-
-    const data = await response.json();
+    const data = await saveTransaction(transaction);
 
     if (
       data.message === "Transaction created" ||
       data.message === "Transaction updated"
     ) {
-      setTransactions((prev) =>
-        transaction._id
-          ? prev.map((t) =>
-              t._id === transaction._id ? { ...t, ...data.data } : t
-            )
-          : [...prev, data.data]
-      );
-      console.log(data.data);
+      setTransactions((prev) => {
+        if (transaction._id) {
+          return prev.map((t) =>
+            t._id === transaction._id ? { ...t, ...data.data } : t
+          );
+        }
+
+        return [...prev, data.data];
+      });
       setOpenForm(false);
       setSelectedTransaction(null);
-      console.log("Transaction list updated", transactions);
     } else {
       console.error("Error handling transaction:", data.error);
     }
@@ -105,6 +84,7 @@ const TransactionPage: React.FC = () => {
       </Button>
       <TransactionsTable
         transactions={transactions}
+        categories={categories}
         onEdit={handleOpenEditForm}
       />
       <TransactionForm

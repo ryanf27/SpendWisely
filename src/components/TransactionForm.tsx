@@ -91,7 +91,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           >
             {categories &&
               categories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
+                <MenuItem key={category._id} value={category._id}>
                   {category.name}
                 </MenuItem>
               ))}

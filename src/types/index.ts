@@ -8,15 +8,21 @@ export interface Transaction {
   description?: string;
 }
 
+export interface Category {
+  name: string;
+  _id: string;
+}
+
 export interface TransactionFormProps {
   open: boolean;
   onClose: () => void;
   initialValues?: Transaction | null;
   onSubmit: (transaction: Transaction) => void;
-  categories?: { name: string; id: string }[];
+  categories: Category[];
 }
 
 export interface TransactionsTableProps {
   transactions: Transaction[];
+  categories: Category[];
   onEdit: (transaction: Transaction) => void;
 }

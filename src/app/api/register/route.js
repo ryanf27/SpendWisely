@@ -1,5 +1,5 @@
 import User from "@/models/User";
-import connectToDB from "@/utils/db";
+import connectToDB from "@/lib/db";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import seedCategories from "../../../seeders/CategorySeeder";

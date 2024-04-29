@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { useSession, signIn } from "next-auth/react";
 import Typography from "@mui/material/Typography";

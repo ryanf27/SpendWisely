@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 
 import {
   TableContainer,
@@ -10,14 +10,54 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TransactionsTableProps } from "@/types/index";
 
 export const TransactionsTable = ({
   transactions,
+  categories,
   onEdit,
 }: TransactionsTableProps) => {
+  const categoryMap: Record<string, string> = categories.reduce(
+    (acc: Record<string, string>, category) => {
+      acc[category._id] = category.name;
+      return acc;
+    },
+    {}
+  );
+
+  const deleteTransaction = async (transactionId: string) => {
+    const isUserConfirmed = window.confirm(
+      "Are you sure you want to delete this transaction?"
+    );
+    if (!isUserConfirmed) return;
+
+    try {
+      const response = await fetch(`/api/transaction`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: transactionId }),
+      });
+
+      if (response.ok) {
+        const { message } = await response.json();
+
+        if (message === "Transaction not found") {
+          alert("Transaction not found.");
+        } else if (message === "Transaction deleted") {
+          alert("Transaction deleted successfully.");
+        }
+      } else {
+        throw new Error("Deletion failed.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while deleting the transaction.");
+    }
+  };
+
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
       <Table>
@@ -36,7 +76,7 @@ export const TransactionsTable = ({
             transactions.map((transaction) => (
               <TableRow key={transaction._id}>
                 <TableCell>{transaction.amount}</TableCell>
-                <TableCell>{transaction.categoryId}</TableCell>
+                <TableCell>{categoryMap[transaction.categoryId]}</TableCell>
                 <TableCell>{transaction.type}</TableCell>
                 <TableCell>{transaction.date}</TableCell>
                 <TableCell>{transaction.description}</TableCell>
@@ -44,7 +84,9 @@ export const TransactionsTable = ({
                   <IconButton onClick={() => onEdit(transaction)}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton
+                    onClick={() => deleteTransaction(transaction._id)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
