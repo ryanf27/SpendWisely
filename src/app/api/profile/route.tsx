@@ -1,5 +1,5 @@
 import User from "@/models/User";
-import connectToDB from "@/lib/db";
+import connectToDB from "@/utils/db";
 import { getServerSession } from "next-auth";
 import { NextResponse, type NextRequest } from "next/server";
 import bcrypt from "bcrypt";

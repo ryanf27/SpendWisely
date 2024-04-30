@@ -5,7 +5,7 @@ import { Box, Button } from "@mui/material";
 import { TransactionsTable } from "@/components/TransactionsTable";
 import { TransactionForm } from "@/components/TransactionForm";
 import { Transaction, Category } from "@/types/index";
-import { loadTransactions, saveTransaction } from "@/app/utils/transactions";
+import { loadTransactions, saveTransaction } from "@/app/lib/transactions";
 
 const TransactionPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);

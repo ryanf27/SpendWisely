@@ -1,10 +1,9 @@
-import connectToDB from "@/lib/db";
+import connectToDB from "@/utils/db";
 import Transaction from "@/models/Transaction";
 import User from "@/models/User";
 import Category from "@/models/Category";
 import { NextResponse, type NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
-
 
 export async function GET() {
   await connectToDB();
@@ -26,6 +25,24 @@ export async function GET() {
     );
   }
 }
+
+export async function getById(request: NextRequest) {
+  await connectToDB();
+  const { id } = await request.json();
+
+  try {
+    const transaction = await Transaction.findById(id);
+
+    return NextResponse.json({ transaction }, { status: 200 });
+  } catch (error) {
+    console.error("An error occurred in GET transaction:", error);
+    return NextResponse.json(
+      { error: "Failed to get transaction" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   await connectToDB();
 

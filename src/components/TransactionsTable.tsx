@@ -9,11 +9,13 @@ import {
   TableBody,
   Paper,
   IconButton,
+  Typography,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TransactionsTableProps } from "@/types/index";
+import Link from "next/link";
 
 export const TransactionsTable = ({
   transactions,
@@ -63,7 +65,7 @@ export const TransactionsTable = ({
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
       <Table>
-        <TableHead>
+        <TableHead sx={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
           <TableRow>
             <TableCell>Amount</TableCell>
             <TableCell>Category</TableCell>
@@ -76,8 +78,22 @@ export const TransactionsTable = ({
         <TableBody>
           {transactions.length > 0 ? (
             transactions.map((transaction) => (
-              <TableRow key={transaction._id}>
-                <TableCell>{transaction.amount}</TableCell>
+              <TableRow
+                key={transaction._id}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.03)",
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                <TableCell>
+                  <Link href={`transaction/${transaction._id}`}>
+                    <Typography component="span" sx={{ cursor: "pointer" }}>
+                      {transaction.amount}
+                    </Typography>
+                  </Link>
+                </TableCell>
                 <TableCell>{categoryMap[transaction.categoryId]}</TableCell>
                 <TableCell>{transaction.type}</TableCell>
                 <TableCell>{transaction.date}</TableCell>
@@ -96,7 +112,7 @@ export const TransactionsTable = ({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={3} align="center">
+              <TableCell colSpan={6} align="center">
                 No transactions available
               </TableCell>
             </TableRow>
