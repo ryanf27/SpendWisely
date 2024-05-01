@@ -15,6 +15,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TransactionsTableProps } from "@/types/index";
+import { formatDateTime } from "@/app/lib/formatDate";
 import Link from "next/link";
 
 export const TransactionsTable = ({
@@ -96,7 +97,7 @@ export const TransactionsTable = ({
                 </TableCell>
                 <TableCell>{categoryMap[transaction.categoryId]}</TableCell>
                 <TableCell>{transaction.type}</TableCell>
-                <TableCell>{transaction.date}</TableCell>
+                <TableCell>{formatDateTime(transaction.date)}</TableCell>
                 <TableCell>{transaction.description}</TableCell>
                 <TableCell>
                   <IconButton onClick={() => onEdit(transaction)}>

@@ -13,27 +13,11 @@ export async function GET() {
 
     const user = await User.findOne({ email: session?.user?.email });
 
-    const userCategories = await Category.find().where("userId", user?._id);
     const transactions = await Transaction.find();
 
+    const userCategories = await Category.find().where("userId", user._id);
+
     return NextResponse.json({ transactions, userCategories }, { status: 200 });
-  } catch (error) {
-    console.error("An error occurred in GET transaction:", error);
-    return NextResponse.json(
-      { error: "Failed to get transaction" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function getById(request: NextRequest) {
-  await connectToDB();
-  const { id } = await request.json();
-
-  try {
-    const transaction = await Transaction.findById(id);
-
-    return NextResponse.json({ transaction }, { status: 200 });
   } catch (error) {
     console.error("An error occurred in GET transaction:", error);
     return NextResponse.json(
@@ -76,12 +60,6 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function PUT(req: any, res: any) {
-  await connectToDB();
-  const transaction = await Transaction.findByIdAndUpdate(req.query.id);
-  res.status(200).json({ success: true, data: transaction });
 }
 
 export async function DELETE(request: NextRequest) {

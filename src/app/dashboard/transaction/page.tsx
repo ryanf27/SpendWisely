@@ -6,6 +6,7 @@ import { TransactionsTable } from "@/components/TransactionsTable";
 import { TransactionForm } from "@/components/TransactionForm";
 import { Transaction, Category } from "@/types/index";
 import { loadTransactions, saveTransaction } from "@/app/lib/transactions";
+import { formatDateTime } from "@/app/lib/formatDate";
 
 const TransactionPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -56,6 +57,7 @@ const TransactionPage: React.FC = () => {
   };
 
   const handleOpenEditForm = (transaction: Transaction) => {
+    transaction.date = formatDateTime(transaction.date);
     setSelectedTransaction(transaction);
     setOpenForm(true);
   };

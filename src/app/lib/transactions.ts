@@ -11,8 +11,10 @@ export const loadTransactions = async () => {
 
 export const saveTransaction = async (transaction: Transaction) => {
   const method = transaction._id ? "PUT" : "POST";
-
-  const response = await fetch("/api/transaction", {
+  const url = transaction._id
+    ? `/api/transaction/${transaction._id}`
+    : "/api/transaction";
+  const response = await fetch(url, {
     method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
