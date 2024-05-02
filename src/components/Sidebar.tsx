@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <ListItemIcon>
             <HomeIcon color={activeItem === "/" ? "primary" : "inherit"} />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary="Home Page" />
         </ListItem>
 
         <ListItem

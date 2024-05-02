@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
 import {
   AppBar,
   Toolbar,
@@ -13,16 +14,21 @@ import {
   Box,
   useTheme,
 } from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
+import { useSession } from "next-auth/react";
+
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+
 import Link from "next/link";
 
 const pages = ["Features", "About Us", "Contact"];
-const pageslink = ["/#features", "/#about", "/#contact"]; // Assuming these are IDs on the homepage
+const pageslink = ["/#features", "/#about", "/#contact"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [navBackground, setNavBackground] = useState(false);
+  const { data: session } = useSession();
 
   const handleScroll = () => {
     const show = window.scrollY > 0;
@@ -148,20 +154,36 @@ const Navbar = () => {
             ))}
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* Auth Buttons */}
-            <Link href="/login" passHref>
-              <Button sx={{ color: dynamicTextColor(), marginRight: "10px" }}>
-                Login
-              </Button>
-            </Link>
-            <Link href="/register" passHref>
-              <Button
-                variant="contained"
-                sx={{ marginRight: "20px", backgroundColor: "#F0C042" }}
-              >
-                Register
-              </Button>
-            </Link>
+            {session?.user ? (
+              <>
+                <Link href="/dashboard" passHref>
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: "20px", backgroundColor: "#F0C042" }}
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/login" passHref>
+                  <Button
+                    sx={{ color: dynamicTextColor(), marginRight: "10px" }}
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register" passHref>
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: "20px", backgroundColor: "#F0C042" }}
+                  >
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>
