@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar";
+import { Box } from "@mui/material";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -7,10 +8,12 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
-    <div style={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <Sidebar />
-      <main style={{ flexGrow: 1, padding: "20px" }}>{children}</main>
-    </div>
+      <Box sx={{ flexGrow: 1, p: 3, width: `calc(100% - 250px)` }}>
+        {children}
+      </Box>
+    </Box>
   );
 };
 
