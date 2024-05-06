@@ -1,14 +1,6 @@
 import { FC } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
-
-interface DataItem {
-  category: string;
-  amount: number;
-}
-
-interface BarChartComponentProps {
-  data: DataItem[] | undefined;
-}
+import { BarChartComponentProps } from "@/types";
 
 const BarChartComponent: FC<BarChartComponentProps> = ({ data }) => {
   return (

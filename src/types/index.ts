@@ -27,3 +27,22 @@ export interface TransactionsTableProps {
   setTransactions: (transactions: Transaction[]) => void;
   onEdit: (transaction: Transaction) => void;
 }
+
+export interface DataItem {
+  category: string;
+  amount: number;
+}
+
+export interface BarChartComponentProps {
+  data: DataItem[] | undefined;
+}
+
+export interface MonthlyTransaction {
+  expense: number;
+  income: number;
+  month: string;
+}
+
+export interface LineChartComponentProps {
+  data: MonthlyTransaction[] | undefined;
+}

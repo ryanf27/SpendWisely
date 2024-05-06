@@ -2,45 +2,52 @@
 
 import React, { useEffect, useState } from "react";
 import BarChart from "@/components/BarChart";
+import LineChartComponent from "@/components/LineChart";
 import { useSession, signIn } from "next-auth/react";
 import Typography from "@mui/material/Typography";
-import {
-  Grid,
-  Card,
-  CardContent,
-  CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  Box,
-} from "@mui/material";
+import { Grid, Card, CardContent, CardHeader, Box } from "@mui/material";
 
 const Page = () => {
   const [ExpenseData, setExpenseData] = useState();
   const [IncomeData, setIncomeData] = useState();
+  const [MonthlyTransactionData, setMonthlyTransactionData] = useState();
   const { data: session, status } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
       const fetchExpenseData = await fetch("/api/expense-by-category");
       const fetchIncomeData = await fetch("/api/income-by-category");
-      const IncomeResult = await fetchIncomeData.json();
-      setIncomeData(
-        IncomeResult.data.map((item: any) => ({
-          category: item.categoryName[0],
-          amount: item.totalIncome,
-        }))
+      const fetchMonthlyTransactionData = await fetch(
+        "/api/montly-transaction"
       );
-      console.log(IncomeResult);
 
       const expenseResult = await fetchExpenseData.json();
+
       setExpenseData(
         expenseResult.data.map((item: any) => ({
           category: item.categoryName[0],
           amount: item.totalExpense,
         }))
       );
+
+      const IncomeResult = await fetchIncomeData.json();
+
+      setIncomeData(
+        IncomeResult.data.map((item: any) => ({
+          category: item.categoryName[0],
+          amount: item.totalIncome,
+        }))
+      );
+
+      const MontlyResult = await fetchMonthlyTransactionData.json();
+      const monthlyTransactionData = MontlyResult.responseData.map(
+        (item: any) => ({
+          income: item.income,
+          expense: item.expense,
+          date: item.date,
+        })
+      );
+      setMonthlyTransactionData(monthlyTransactionData);
     };
 
     if (status === "unauthenticated") {
@@ -114,33 +121,14 @@ const Page = () => {
         </Grid>
       </Box>
 
-      <Card variant="outlined" sx={{ mb: 2 }}>
-        <CardHeader title="Recent Transactions" />
-        <CardContent>
-          <Table size="small">
-            <TableBody>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell align="right">Type</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2024-05-02</TableCell>
-                <TableCell>Groceries</TableCell>
-                <TableCell align="right">Rp500,000</TableCell>
-                <TableCell align="right">Expense</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>2024-05-01</TableCell>
-                <TableCell>Salary</TableCell>
-                <TableCell align="right">Rp10,000,000</TableCell>
-                <TableCell align="right">Income</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <Box>
+        <Card variant="outlined" sx={{ mb: 2 }}>
+          <CardHeader title="Monthly Transaction" />
+          <CardContent>
+            <LineChartComponent data={MonthlyTransactionData} />
+          </CardContent>
+        </Card>
+      </Box>
     </>
   );
 };
