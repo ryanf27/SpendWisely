@@ -8,6 +8,15 @@ export interface Transaction {
   description?: string;
 }
 
+export interface Budget {
+  _id: string;
+  userId: string;
+  limitAmount: number;
+  period: string;
+  startDate: string;
+  endDate: string;
+}
+
 export interface Category {
   name: string;
   _id: string;
@@ -26,6 +35,19 @@ export interface TransactionsTableProps {
   categories: Category[];
   setTransactions: (transactions: Transaction[]) => void;
   onEdit: (transaction: Transaction) => void;
+}
+
+export interface BudgetsTableProps {
+  budgets: Budget[];
+  setBudgets: (Budget: Budget[]) => void;
+  onEdit: (Budget: Budget) => void;
+}
+
+export interface BudgetFormProps {
+  open: boolean;
+  onClose: () => void;
+  initialValues?: Budget | null;
+  onSubmit: (transaction: Budget) => void;
 }
 
 export interface DataItem {

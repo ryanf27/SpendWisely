@@ -1,14 +1,9 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, models } from "mongoose";
 
 const budgetSchema = new Schema({
   userId: {
     type: Types.ObjectId,
     ref: "User",
-    required: true,
-  },
-  categoryId: {
-    type: Types.ObjectId,
-    ref: "Category",
     required: true,
   },
   limitAmount: {
@@ -17,7 +12,15 @@ const budgetSchema = new Schema({
   },
   period: {
     type: String,
-    enum: ["monthly", "yearly"],
+    enum: ["daily", "weekly", "monthly"],
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
     required: true,
   },
   createdAt: {
@@ -30,6 +33,6 @@ const budgetSchema = new Schema({
   },
 });
 
-const Budget = model("Budget", budgetSchema);
+const Budget = models?.Budget || model("Budget", budgetSchema);
 
 export default Budget;
