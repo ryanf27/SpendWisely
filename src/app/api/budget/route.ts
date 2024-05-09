@@ -72,10 +72,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(
-      { message: "Budget deleted successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Budget deleted" }, { status: 200 });
   } catch (error) {
     console.error("An error occurred in DELETE budget:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

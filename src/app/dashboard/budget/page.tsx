@@ -30,8 +30,6 @@ const BudgetPage: React.FC = () => {
   const handleCreateOrEditTransaction = async (budget: Budget) => {
     const data = await saveBudget(budget);
 
-    console.log(data);
-
     if (
       data.message === "Budget created successfully" ||
       data.message === "Budget updated successfully"
