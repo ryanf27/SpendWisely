@@ -8,7 +8,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", backgroundColor: "#f9f9f9" }}>
       <Sidebar />
       <Box sx={{ flexGrow: 1, p: 3, width: `calc(100% - 250px)` }}>
         {children}

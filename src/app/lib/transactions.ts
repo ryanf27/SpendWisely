@@ -9,6 +9,44 @@ export const loadTransactions = async () => {
   return response.json();
 };
 
+export const getTotalIncome = async () => {
+  const response = await fetch("/api/transaction");
+  if (!response.ok) {
+    throw new Error(`Error fetching transactions: ${response.statusText}`);
+  }
+
+  const { transactions } = await response.json();
+
+  const incomeTransactions = transactions.filter(
+    (t: Transaction) => t.type === "income"
+  );
+  const totalIncome = incomeTransactions.reduce(
+    (total: number, t: Transaction) => total + t.amount,
+    0
+  );
+
+  return totalIncome;
+};
+
+export const getTotalExpense = async () => {
+  const response = await fetch("/api/transaction");
+  if (!response.ok) {
+    throw new Error(`Error fetching transactions: ${response.statusText}`);
+  }
+
+  const { transactions } = await response.json();
+
+  const expenseTransactions = transactions.filter(
+    (t: Transaction) => t.type === "expense"
+  );
+  const totalExpense = expenseTransactions.reduce(
+    (total: number, t: Transaction) => total + t.amount,
+    0
+  );
+
+  return totalExpense;
+};
+
 export const saveTransaction = async (transaction: Transaction) => {
   const method = transaction._id ? "PUT" : "POST";
   const url = transaction._id

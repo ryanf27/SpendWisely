@@ -14,7 +14,7 @@ const BarChartComponent: FC<BarChartComponentProps> = ({ data }) => {
       <Tooltip
         formatter={(value) => `$${(value as number).toLocaleString("us-US")}`}
       />
-      <Bar dataKey="amount" fill="#8884d8" barSize={20} />
+      <Bar dataKey="amount" fill="#0933ff" barSize={20} />
     </BarChart>
   );
 };

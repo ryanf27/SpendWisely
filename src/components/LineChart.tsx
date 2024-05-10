@@ -36,10 +36,10 @@ const LineChartComponent: React.FC<LineChartComponentProps> = ({ data }) => {
         <Line
           type="monotone"
           dataKey="income"
-          stroke="#8884d8"
+          stroke="#0933ff"
           activeDot={{ r: 8 }}
         />
-        <Line type="monotone" dataKey="expense" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="expense" stroke="#ff0000" />
       </LineChart>
     </ResponsiveContainer>
   );

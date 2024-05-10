@@ -19,7 +19,6 @@ const TransactionPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const { transactions, userCategories } = await loadTransactions();
-
         setTransactions(transactions);
 
         setCategories(
