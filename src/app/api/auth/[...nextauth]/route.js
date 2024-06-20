@@ -5,7 +5,7 @@ import User from "@/models/User";
 import bcrypt from "bcrypt";
 import connectToDB from "@/utils/db";
 
-export const authOptions = {
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
